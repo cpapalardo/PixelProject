@@ -13,11 +13,12 @@ public class RacketsController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
 	void FixedUpdate(){
-		if (transform.gameObject.name == "RacketRight") {
+		if(Time.time < 15f)
+			speed +=0.005f;
+		if (transform.gameObject.name == "RacketRight" && !pixel.gameObject.GetComponent<BallController>().gotHeart) {
 			float v = Input.GetAxisRaw (axis);
 			GetComponent<Rigidbody2D>().velocity = new Vector2(0, v) * speed;
 		}

@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 //http://noobtuts.com/unity/2d-pong-game
 
 public class BallController : MonoBehaviour {
 
 	public float speed;
-    public Text playerScore;
+    public Text aIScore;
+	public bool gotHeart;
 	public Vector3 initialPosition = new Vector3(0,1,0);
+	public string axis = "Vertical";
+	public GameObject heart;
 	// Use this for initialization
 	void Start () {
 		GetComponent<Rigidbody2D> ().velocity = Vector2.right * speed;
@@ -28,7 +32,7 @@ public class BallController : MonoBehaviour {
 			//Define velocidade como direction * velocidade
 			GetComponent<Rigidbody2D> ().velocity = direction * speed;
 		}
-		if (col.gameObject.name == "RacketRight") {
+		if (col.gameObject.name == "RacketRight" && !gotHeart) {
 			// Calculate hit Factor
 			float y = HitFactor(transform.position,
 				col.transform.position,
@@ -41,12 +45,23 @@ public class BallController : MonoBehaviour {
 			GetComponent<Rigidbody2D>().velocity = direction * speed;
 		}
 		if (col.gameObject.name == "DestroyerLeft" || col.gameObject.name == "DestroyerRight") {
-			this.gameObject.SetActive (false);
-            UpdateScore();
-            transform.position = initialPosition;
-			this.gameObject.SetActive (true);
-            GetComponent<Rigidbody2D>().velocity = Vector2.right * speed;
+			if (gotHeart)
+				SceneManager.LoadScene ("Tela02");
+			else {
+				SoundController.PlaySound (SoundDatabase.miss);
+				this.gameObject.SetActive (false);
+				UpdateScore ();
+				transform.position = initialPosition;
+				this.gameObject.SetActive (true);
+				GetComponent<Rigidbody2D> ().velocity = Vector2.right * speed;
+			}
         }
+		if (col.gameObject.name == "Heart") {
+			gotHeart = true;
+			col.gameObject.SetActive (false);
+			SoundController.StopSound ();
+			GetComponent<Rigidbody2D> ().velocity = new Vector2(0f,0f);
+		}
 
 	}
 
@@ -63,9 +78,19 @@ public class BallController : MonoBehaviour {
 
     public void UpdateScore()
     {
-        int aux = int.Parse(playerScore.text);
+		int aux = int.Parse(aIScore.text);
         aux++;
-        playerScore.text = aux.ToString();
+		aIScore.text = aux.ToString();
     }
+
+	void FixedUpdate(){
+		if (Time.time < 15f)
+			speed +=0.005f;
+		if(gotHeart){
+			float v = Input.GetAxisRaw (axis);
+			float h = Input.GetAxisRaw ("Horizontal");
+			GetComponent<Rigidbody2D>().velocity = new Vector2(h, v) * speed;
+		}
+	}
 
 }

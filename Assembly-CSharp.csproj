@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{220187D2-FC76-9EFC-3262-2E104B0249A0}</ProjectGuid>
+    <ProjectGuid>{155D7045-C262-D255-B7D3-E45790B737B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -45,9 +45,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\BallController.cs" />
-     <Compile Include="Assets\Scripts\DestroyerController.cs" />
-     <Compile Include="Assets\Scripts\RacketsController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\EventsController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\MusicController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\SoundController.cs" />
+     <Compile Include="Assets\Scripts\Managers\PongManager.cs" />
+     <Compile Include="Assets\Scripts\Mechanic\BallController.cs" />
+     <Compile Include="Assets\Scripts\Mechanic\DestroyerController.cs" />
+     <Compile Include="Assets\Scripts\Mechanic\RacketsController.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
